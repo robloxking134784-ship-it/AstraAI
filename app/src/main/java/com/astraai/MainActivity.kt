@@ -7,12 +7,14 @@ import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.*
+import com.astraai.ai.ResponseEngine
 
 class MainActivity : Activity() {
 
     private lateinit var messagesContainer: LinearLayout
     private lateinit var inputField: EditText
-    private lateinit var sendButton: Button
+
+    private val responseEngine = ResponseEngine()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,13 +66,7 @@ class MainActivity : Activity() {
             setBackgroundColor(Color.rgb(230, 230, 230))
         }
 
-        root.addView(
-            header,
-            LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-            )
-        )
+        root.addView(header)
 
         root.addView(
             divider,
@@ -120,7 +116,7 @@ class MainActivity : Activity() {
             )
         )
 
-        sendButton = Button(this).apply {
+        val sendButton = Button(this).apply {
             text = "➤"
             textSize = 20f
             setTextColor(Color.WHITE)
@@ -133,10 +129,7 @@ class MainActivity : Activity() {
 
         inputContainer.addView(
             sendButton,
-            LinearLayout.LayoutParams(
-                60,
-                60
-            )
+            LinearLayout.LayoutParams(60, 60)
         )
 
         root.addView(inputContainer)
@@ -144,24 +137,25 @@ class MainActivity : Activity() {
         setContentView(root)
 
         addAIMessage(
-            "Привет! Я AstraAI. Чем могу помочь?"
+            "Привет! 👋 Я AstraAI. Задавай мне вопросы."
         )
     }
 
     private fun sendMessage() {
 
-        val message = inputField.text.toString().trim()
+        val question = inputField.text.toString().trim()
 
-        if (message.isEmpty()) return
+        if (question.isEmpty()) {
+            return
+        }
 
-        addUserMessage(message)
+        addUserMessage(question)
 
         inputField.text.clear()
 
-        // Здесь позже подключим настоящий AI API.
-        addAIMessage(
-            "Сообщение получено. Подключение искусственного интеллекта будет добавлено следующим этапом."
-        )
+        val answer = responseEngine.respond(question)
+
+        addAIMessage(answer)
     }
 
     private fun addUserMessage(message: String) {
@@ -172,7 +166,6 @@ class MainActivity : Activity() {
             setTextColor(Color.WHITE)
             setBackgroundColor(Color.rgb(244, 67, 54))
             setPadding(18, 14, 18, 14)
-            gravity = Gravity.CENTER_VERTICAL
         }
 
         val params = LinearLayout.LayoutParams(
