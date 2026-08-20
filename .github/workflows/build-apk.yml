@@ -20,6 +20,12 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Check project files
+        run: |
+          ls -la
+          echo "Checking Gradle wrapper..."
+          ls -la gradle/wrapper
+
       - name: Make Gradle executable
         run: chmod +x ./gradlew
 
