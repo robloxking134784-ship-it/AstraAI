@@ -7,14 +7,14 @@ import android.graphics.Typeface
 import android.view.Gravity
 import android.view.View
 import android.widget.*
-import com.astraai.ai.ResponseEngine
+import com.astraai.ai.AstraAI
 
 class MainActivity : Activity() {
 
     private lateinit var messagesContainer: LinearLayout
     private lateinit var inputField: EditText
 
-    private val responseEngine = ResponseEngine()
+    private val astraAI = AstraAI()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,7 +153,7 @@ class MainActivity : Activity() {
 
         inputField.text.clear()
 
-        val answer = responseEngine.respond(question)
+        val answer = astraAI.ask(question)
 
         addAIMessage(answer)
     }
