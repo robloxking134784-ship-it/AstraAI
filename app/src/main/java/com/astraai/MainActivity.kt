@@ -101,10 +101,10 @@ class MainActivity : Activity() {
         }
 
         inputField = EditText(this).apply {
-            hint = "Напишите сообщение..."
-            textSize = 16f
-            singleLine = true
-            setPadding(20, 12, 20, 12)
+    hint = "Напишите сообщение..."
+    textSize = 16f
+    setSingleLine(true)
+    setPadding(20, 12, 20, 12)
         }
 
         inputContainer.addView(
